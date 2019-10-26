@@ -1,26 +1,40 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route,
+    Redirect,
+} from 'react-router-dom';
+import PageLayout from "src/views/pages/PageLayout";
+import {ITEMS, ROOT_PAGE, SIGNIN} from "src/constants/routes";
+import SigninPage from "src/views/pages/SigninPage";
+import ItemsPage from "src/views/pages/ItemsPage";
 
 const App: React.FC = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+      <Router>
+          <PageLayout>
+              <Switch>
+                  <Route
+                    path={ROOT_PAGE}
+                    exact={true}
+                    component={() => <Redirect to={ITEMS}/>}
+                  />
+                  <Route
+                    path={ITEMS}
+                    component={ItemsPage}
+                  />
+
+                  <Route
+                      path={SIGNIN}
+                      component={SigninPage}
+                  />
+                  <Route component={() => <Redirect to={ROOT_PAGE}/>} />
+              </Switch>
+          </PageLayout>
+      </Router>
+
   );
-}
+};
 
 export default App;
