@@ -1,23 +1,37 @@
 export const ItemsColumns = [
   {
+    title: 'ID',
+    dataIndex: 'id',
+    sorter: true,
+  },
+  {
     title: 'User name',
-    dataIndex: 'name',
-    sorter: true
+    dataIndex: 'username',
+    sorter: true,
   },
   {
     title: 'Email',
     dataIndex: 'email',
-    sorter: true
+    sorter: true,
   },
   {
     title: 'Text',
     dataIndex: 'text',
-    sorter: true
   },
   {
     title: 'Status',
     dataIndex: 'status',
+    sorter: true,
   },
 ];
+
+export type ITableRow = {
+  id: number;
+  key: number,
+  username: string,
+  email: string,
+  text: string,
+  status: number,
+}
 
 export const DefaultPageSize = 3;

@@ -1,18 +1,19 @@
 import React from 'react';
 import { Table } from 'antd';
-import {DefaultPageSize, ItemsColumns} from "./config";
-import range from 'lodash/range';
-import {PaginationConfig} from "antd/lib/pagination";
-import {SorterResult, TableStateFilters} from "antd/lib/table";
-import CreateItemForm from "./partials/CreateItemForm";
-import bemClassNames from "src/utilities/bemClassNames";
+import {DefaultPageSize, ITableRow, ItemsColumns} from './config';
+import { PaginationConfig } from 'antd/lib/pagination';
+import { SorterResult, TableStateFilters } from 'antd/lib/table';
+import CreateItemForm from './partials/CreateItemForm';
+import bemClassNames from 'src/utilities/bemClassNames';
+import { API } from 'src/api';
+import { IGetAllItemsParams, ITask } from 'src/api/types';
 
 interface IItemsPageProps {}
 
 interface IItemsPageState {
-  data: any [],
-  pagination: PaginationConfig,
-  loading: boolean
+  data: ITableRow[];
+  pagination: PaginationConfig;
+  loading: boolean;
 }
 
 const b = bemClassNames('items-page');
@@ -21,40 +22,57 @@ class ItemsPage extends React.Component<IItemsPageProps, IItemsPageState> {
   state = {
     data: [],
     pagination: { pageSize: DefaultPageSize } as PaginationConfig,
-    loading: false
+    loading: false,
   };
 
   componentDidMount(): void {
     this.loadItems();
   }
 
-  async loadItems() {
-    this.setState({
-      data: range(DefaultPageSize*5).map(i => ({
-        key: i,
-        name: `Edward King ${i}`,
-        email: 32,
-        text: `London, Park Lane no. ${i}`,
-        status: 'new',
-      }))
-    })
-  }
-
-  handleTableChange = (newPagination: PaginationConfig, filters: TableStateFilters, sorter: SorterResult<any>) => {
+  async loadItems(params?: IGetAllItemsParams) {
     const { pagination } = this.state;
 
-    this.setState({
-      pagination: {
-          ...pagination,
-          current: newPagination.current
-      }});
+    this.setState({ loading: true });
 
-    console.log('PARAMS', {
-      results: pagination.pageSize,
+    try {
+      const {
+        message: { tasks, total_task_count },
+      } = await API.methods.items.getAll(params);
+
+      const data = tasks.map((item: ITask) => ({
+        id: item.id,
+        key: item.id,
+        username: item.username,
+        email: item.email,
+        text: item.text,
+        status: item.status,
+      }));
+
+      const updatedPagination = {
+        ...pagination,
+        total: Number(total_task_count),
+      };
+
+      this.setState({
+        data,
+        pagination: updatedPagination,
+      });
+    } catch (e) {
+      // Do nothing
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
+
+  handleTableChange = (
+    newPagination: PaginationConfig,
+    filters: TableStateFilters,
+    sorter: SorterResult<any>
+  ) => {
+    this.loadItems({
       page: newPagination.current,
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      ...filters,
+      sort_field: sorter.field as IGetAllItemsParams['sort_field'],
+      sort_direction: sorter.order === 'ascend' ? 'asc' : 'desc',
     });
   };
 
@@ -78,9 +96,7 @@ class ItemsPage extends React.Component<IItemsPageProps, IItemsPageState> {
         </div>
 
         <div className={b('form')}>
-          <CreateItemForm
-
-          />
+          <CreateItemForm />
         </div>
       </div>
     );
