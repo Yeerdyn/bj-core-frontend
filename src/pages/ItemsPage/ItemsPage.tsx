@@ -1,12 +1,13 @@
 import React from 'react';
 import { Table } from 'antd';
-import { DefaultPageSize, ITableRow, ItemsColumns } from './config';
+import {AuthorizedItemsColumns, DefaultPageSize, ITableRow, ItemsColumns} from './config';
 import { PaginationConfig } from 'antd/lib/pagination';
 import { SorterResult, TableStateFilters } from 'antd/lib/table';
 import CreateItemForm from './partials/CreateItemForm';
 import bemClassNames from 'src/utilities/bemClassNames';
 import { API } from 'src/api';
 import { ICreateItemParams, IGetAllItemsParams, ITask } from 'src/api/types';
+import {getAccessToken} from "src/utilities/authOperations";
 
 interface IItemsPageProps {}
 
@@ -88,7 +89,7 @@ class ItemsPage extends React.Component<IItemsPageProps, IItemsPageState> {
       <div className={b()}>
         <div className={b('table')}>
           <Table
-            columns={ItemsColumns}
+            columns={getAccessToken() ? AuthorizedItemsColumns : ItemsColumns}
             dataSource={data}
             pagination={pagination}
             loading={loading}

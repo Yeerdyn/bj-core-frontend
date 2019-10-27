@@ -1,3 +1,6 @@
+import {Divider, Tag} from "antd";
+import React from "react";
+
 export const ItemsColumns = [
   {
     title: 'ID',
@@ -22,8 +25,29 @@ export const ItemsColumns = [
     title: 'Status',
     dataIndex: 'status',
     sorter: true,
+    render: getTagByStatus
   },
 ];
+
+export const AuthorizedItemsColumns = [
+  ...ItemsColumns,
+  {
+    title: 'Actions',
+    dataIndex: 'actions',
+    render: () => (<div>
+      <a>Complete</a>
+      <Divider type="horizontal" />
+      <a>Edit</a>
+    </div>)
+  },
+];
+
+function getTagByStatus(status: number) {
+  return (<>
+    {status === 0 && <Tag color='yellow'>New</Tag>}
+    {status === 10 && <Tag color='green'>Completed</Tag>}
+  </>)
+}
 
 export type ITableRow = {
   id: number;
