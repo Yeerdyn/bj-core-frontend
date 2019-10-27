@@ -1,13 +1,7 @@
-import React from "react";
+import React from 'react';
 
-interface ISigninPageProps {
+interface ISigninPageProps {}
 
-}
-
-const SigninPage: React.FC<ISigninPageProps> = () => (
-    <div>
-        Signin
-    </div>
-);
+const SigninPage: React.FC<ISigninPageProps> = () => <div>Signin</div>;
 
 export default SigninPage;
