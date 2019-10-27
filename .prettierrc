@@ -1,0 +1,10 @@
+{
+  "parser": "typescript",
+  "bracketSpacing": true,
+  "singleQuote": true,
+  "arrowParens": "always",
+  "jsxBracketSameLine": true,
+  "trailingComma": "es5",
+  "endOfLine": "auto",
+  "printWidth": 80
+}
