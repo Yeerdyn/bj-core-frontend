@@ -5,7 +5,7 @@ import range from 'lodash/range';
 import {PaginationConfig} from "antd/lib/pagination";
 import {SorterResult, TableStateFilters} from "antd/lib/table";
 import CreateItemForm from "./partials/CreateItemForm";
-import bemClassNames from "../../../utilities/bemClassNames";
+import bemClassNames from "src/utilities/bemClassNames";
 
 interface IItemsPageProps {}
 
