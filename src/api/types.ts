@@ -36,3 +36,15 @@ export type ICreateItemResponse = {
     status: number;
   };
 };
+
+export type ILoginParams = {
+  username: string;
+  password: string;
+};
+
+export type ILoginResponse = {
+  status: 'ok';
+  message: {
+    token: string;
+  };
+};

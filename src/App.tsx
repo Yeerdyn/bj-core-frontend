@@ -5,12 +5,12 @@ import {
   Route,
   Redirect,
 } from 'react-router-dom';
-import PageLayout from 'src/views/pages/PageLayout';
+import PageLayout from 'src/pages/PageLayout';
 import { ITEMS, ROOT_PAGE, SIGNIN } from 'src/constants/routes';
-import SigninPage from 'src/views/pages/SigninPage';
-import ItemsPage from 'src/views/pages/ItemsPage';
-import {Provider} from "react-redux";
-import store from "./store";
+import SigninPage from 'src/pages/SigninPage';
+import ItemsPage from 'src/pages/ItemsPage';
+import { Provider } from 'react-redux';
+import store from './store';
 
 const App: React.FC = () => {
   return (

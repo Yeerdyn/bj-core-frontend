@@ -4,6 +4,8 @@ import {
   ICreateItemResponse,
   IGetAllItemsParams,
   IGetAllItemsResponse,
+  ILoginParams,
+  ILoginResponse,
 } from './types';
 import { ItemsResourceUrl } from '../constants/api';
 
@@ -52,6 +54,33 @@ const items = {
   create: createItem,
 };
 
+async function login(params: ILoginParams): Promise<ILoginResponse> {
+  const formData = new FormData();
+  formData.append('username', params.username);
+  formData.append('password', params.password);
+
+  const response = await API.context.post(
+    ItemsResourceUrl.concat('login'),
+    formData
+  );
+  const {
+    data: { message, status },
+  } = response;
+
+  console.log('response', response);
+
+  if (status === 'error') {
+    throw new Error(Object.values(message).join('/n'));
+  }
+
+  return response.data;
+}
+
+const auth = {
+  login,
+};
+
 export default {
   items,
+  auth,
 };

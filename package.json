@@ -6,6 +6,7 @@
     "antd": "^3.24.2",
     "axios": "^0.19.0",
     "bem-cn": "^3.0.1",
+    "js-cookie": "^2.2.1",
     "lodash": "^4.17.15",
     "node-sass": "^4.13.0",
     "react": "^16.11.0",
@@ -21,6 +22,7 @@
   "devDependencies": {
     "@types/axios": "^0.14.0",
     "@types/jest": "24.0.20",
+    "@types/js-cookie": "^2.2.4",
     "@types/lodash": "^4.14.144",
     "@types/node": "12.11.7",
     "@types/node-sass": "^4.11.0",
