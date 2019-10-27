@@ -1,6 +1,7 @@
 import { API } from './api';
 import {
-  ICreateItemParams, ICreateItemResponse,
+  ICreateItemParams,
+  ICreateItemResponse,
   IGetAllItemsParams,
   IGetAllItemsResponse,
 } from './types';
@@ -23,13 +24,18 @@ async function getAllItems(
   return response.data;
 }
 
-async function createItem(params: ICreateItemParams): Promise<ICreateItemResponse> {
+async function createItem(
+  params: ICreateItemParams
+): Promise<ICreateItemResponse> {
   const formData = new FormData();
   formData.append('username', params.username);
   formData.append('email', params.email);
   formData.append('text', params.text);
 
-  const response = await API.context.post(ItemsResourceUrl.concat('create'), formData);
+  const response = await API.context.post(
+    ItemsResourceUrl.concat('create'),
+    formData
+  );
   const {
     data: { message, status },
   } = response;

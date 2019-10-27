@@ -1,16 +1,12 @@
 import React from 'react';
 import { Table } from 'antd';
-import {
-  DefaultPageSize,
-  ITableRow,
-  ItemsColumns,
-} from './config';
+import { DefaultPageSize, ITableRow, ItemsColumns } from './config';
 import { PaginationConfig } from 'antd/lib/pagination';
 import { SorterResult, TableStateFilters } from 'antd/lib/table';
 import CreateItemForm from './partials/CreateItemForm';
 import bemClassNames from 'src/utilities/bemClassNames';
 import { API } from 'src/api';
-import {ICreateItemParams, IGetAllItemsParams, ITask} from 'src/api/types';
+import { ICreateItemParams, IGetAllItemsParams, ITask } from 'src/api/types';
 
 interface IItemsPageProps {}
 

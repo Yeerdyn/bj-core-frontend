@@ -2,7 +2,8 @@ import React, { SyntheticEvent } from 'react';
 import { Button, Form, Input } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
 import { API } from 'src/api';
-import {ICreateItemParams} from "src/api/types";
+import { ICreateItemParams } from 'src/api/types';
+import { escapeObjectValues } from 'src/utilities/escapeObjectValues';
 
 interface ICreateItemFormProps {
   onSubmit: (values: ICreateItemParams) => void;
@@ -37,12 +38,17 @@ class CreateItemForm extends React.Component<
 
   submit() {
     const {
-      form: { validateFields }
+      form: { validateFields },
     } = this.props;
 
     validateFields((err, values) => {
       if (!err) {
-        this.createItem(values);
+        console.log('values', values);
+        const savedValues = (escapeObjectValues(
+          values
+        ) as unknown) as ICreateItemParams;
+        console.log('savedValues', savedValues);
+        this.createItem(savedValues);
       }
     });
   }
@@ -52,7 +58,10 @@ class CreateItemForm extends React.Component<
   };
 
   async createItem(params: ICreateItemParams) {
-    const { onSubmit, form: { resetFields } } = this.props;
+    const {
+      onSubmit,
+      form: { resetFields },
+    } = this.props;
     this.setState({ loading: true });
 
     try {
@@ -84,7 +93,10 @@ class CreateItemForm extends React.Component<
       hasErrors(getFieldsError());
 
     return (
-      <Form onSubmit={this.handleSubmit} className="create-form" onKeyPress={this.handleKeyPress}>
+      <Form
+        onSubmit={this.handleSubmit}
+        className="create-form"
+        onKeyPress={this.handleKeyPress}>
         <Form.Item
           validateStatus={usernameError ? 'error' : ''}
           help={usernameError || ''}>
