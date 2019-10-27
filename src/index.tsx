@@ -4,6 +4,9 @@ import './assets/styles/index.scss';
 import 'antd/dist/antd.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
+import { checkAuthorization } from './utilities/authOperations';
+
+checkAuthorization();
 
 ReactDOM.render(<App />, document.getElementById('root'));
 

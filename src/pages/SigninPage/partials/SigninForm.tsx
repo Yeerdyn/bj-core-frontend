@@ -1,10 +1,10 @@
 import React, { SyntheticEvent } from 'react';
 import { Button, Form, Icon, Input } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
-import { API } from '../../../api';
-import { ILoginParams } from '../../../api/types';
-import createNotification from '../../../utilities/notificationService';
-import {setAPIToken} from "../../../utilities/authOperations";
+import { API } from 'src/api';
+import { ILoginParams } from 'src/api/types';
+import createNotification from 'src/utilities/notificationService';
+import { setAccessToken } from 'src/utilities/authOperations';
 
 interface ISigninFormProps {
   onSubmit?: (values: object) => void;
@@ -44,7 +44,7 @@ class SigninForm extends React.Component<ISigninFormProps, ISigninFormState> {
     try {
       const response = await API.methods.auth.login(params);
 
-      setAPIToken(response.message.token);
+      setAccessToken(response.message.token);
       onSubmit && onSubmit(params);
     } catch (e) {
       createNotification('error', 'Login error', e.message);

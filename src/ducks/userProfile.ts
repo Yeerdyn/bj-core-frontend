@@ -5,9 +5,7 @@ const SAVE = 'bj/userProfile/SAVE';
 const REMOVE = 'bj/userProfile/REMOVE';
 
 // Action Creators
-export function saveUserProfile(data: {
-  isAuthorized: boolean
-}) {
+export function saveUserProfile(data: { isAuthorized: boolean } | null) {
   return action(SAVE, data);
 }
 

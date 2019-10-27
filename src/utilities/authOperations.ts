@@ -1,23 +1,26 @@
-import Cookies from 'js-cookie'
-import {AUTH_COOKIE, COOKIE_DURATION} from "../constants/api";
-import {saveUserProfile} from "../ducks/userProfile";
+import Cookies from 'js-cookie';
+import { AUTH_COOKIE, COOKIE_DURATION } from 'src/constants/api';
+import { removeUserProfile, saveUserProfile } from 'src/ducks/userProfile';
+import store from 'src/store';
 
-function setAPIToken(token: string) {
-  Cookies.set(AUTH_COOKIE, token, { expires: COOKIE_DURATION })
-  saveUserProfile({ isAuthorized: true });
+function setAccessToken(token: string) {
+  Cookies.set(AUTH_COOKIE, token, { expires: COOKIE_DURATION });
+  store.dispatch(saveUserProfile({ isAuthorized: true }));
 }
 
-function unsetApiToken(){
+function unsetAccessToken() {
   Cookies.remove(AUTH_COOKIE);
-  saveUserProfile({ isAuthorized: false });
+  store.dispatch(removeUserProfile());
 }
 
 function getAccessToken() {
-  return Cookies.get(AUTH_COOKIE)
+  return Cookies.get(AUTH_COOKIE);
 }
 
-export {
-  setAPIToken,
-  unsetApiToken,
-  getAccessToken
+function checkAuthorization() {
+  getAccessToken()
+    ? store.dispatch(saveUserProfile({ isAuthorized: true }))
+    : store.dispatch(removeUserProfile());
 }
+
+export { setAccessToken, unsetAccessToken, getAccessToken, checkAuthorization };

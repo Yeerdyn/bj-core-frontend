@@ -4,6 +4,5 @@ export const DeveloperTag =
 
 export const ItemsResourceUrl = '/';
 
-
 export const AUTH_COOKIE = 'access-token';
 export const COOKIE_DURATION = 1;

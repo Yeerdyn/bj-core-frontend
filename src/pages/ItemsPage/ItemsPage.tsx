@@ -51,6 +51,7 @@ class ItemsPage extends React.Component<IItemsPageProps, IItemsPageState> {
       const updatedPagination = {
         ...pagination,
         total: Number(total_task_count),
+        current: params ? params.page : pagination.current,
       };
 
       this.setState({
@@ -77,7 +78,7 @@ class ItemsPage extends React.Component<IItemsPageProps, IItemsPageState> {
   };
 
   handleCreateItem = (values: ICreateItemParams) => {
-    this.loadItems();
+    this.loadItems({ page: 1, sort_direction: 'desc' });
   };
 
   render() {
