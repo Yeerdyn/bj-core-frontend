@@ -27,11 +27,11 @@ export const ItemsColumns = [
 
 export type ITableRow = {
   id: number;
-  key: number,
-  username: string,
-  email: string,
-  text: string,
-  status: number,
-}
+  key: number;
+  username: string;
+  email: string;
+  text: string;
+  status: number;
+};
 
 export const DefaultPageSize = 3;

@@ -17,8 +17,6 @@ const APIContext = axios.create(options);
 
 APIContext.interceptors.request.use(
   function(config) {
-    console.log('G', config);
-
     return {
       ...config,
       params: {
@@ -28,7 +26,6 @@ APIContext.interceptors.request.use(
     };
   },
   function(error) {
-    // Do something with request error
     return Promise.reject(error);
   }
 );

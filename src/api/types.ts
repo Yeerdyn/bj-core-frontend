@@ -20,3 +20,19 @@ export type ITask = {
   status: number;
 };
 
+export type ICreateItemParams = {
+  username: string;
+  email: string;
+  text: string;
+};
+
+export type ICreateItemResponse = {
+  status: 'ok';
+  message: {
+    id: number;
+    username: string;
+    email: string;
+    text: string;
+    status: number;
+  };
+};

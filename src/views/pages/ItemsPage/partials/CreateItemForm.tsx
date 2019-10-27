@@ -1,35 +1,70 @@
 import React, { SyntheticEvent } from 'react';
 import { Button, Form, Input } from 'antd';
 import { WrappedFormUtils } from 'antd/lib/form/Form';
+import { API } from 'src/api';
+import {ICreateItemParams} from "src/api/types";
 
 interface ICreateItemFormProps {
-  onSubmit?: (values: object) => void;
+  onSubmit: (values: ICreateItemParams) => void;
   form: WrappedFormUtils;
+}
+
+interface ICreateItemFormState {
+  loading: boolean;
 }
 
 function hasErrors(fieldsError: any) {
   return Object.keys(fieldsError).some((field) => fieldsError[field]);
 }
 
-class CreateItemForm extends React.Component<ICreateItemFormProps> {
+class CreateItemForm extends React.Component<
+  ICreateItemFormProps,
+  ICreateItemFormState
+> {
+  state = {
+    loading: false,
+  };
+
   componentDidMount(): void {
     this.props.form.validateFields();
   }
 
   handleSubmit = (e: SyntheticEvent) => {
-    const {
-      form: { validateFields },
-      onSubmit,
-    } = this.props;
-
     e.preventDefault();
+
+    this.submit();
+  };
+
+  submit() {
+    const {
+      form: { validateFields }
+    } = this.props;
 
     validateFields((err, values) => {
       if (!err) {
-        onSubmit && onSubmit(values);
+        this.createItem(values);
       }
     });
+  }
+
+  handleKeyPress = (e: React.KeyboardEvent<any>) => {
+    e.key === 'Enter' && this.submit();
   };
+
+  async createItem(params: ICreateItemParams) {
+    const { onSubmit, form: { resetFields } } = this.props;
+    this.setState({ loading: true });
+
+    try {
+      await API.methods.items.create(params);
+      onSubmit && onSubmit(params);
+      resetFields();
+    } catch (e) {
+      // Do nothing
+    } finally {
+      this.setState({ loading: false });
+    }
+  }
 
   render() {
     const {
@@ -39,6 +74,7 @@ class CreateItemForm extends React.Component<ICreateItemFormProps> {
       getFieldError,
       getFieldsError,
     } = this.props.form;
+    const { loading } = this.state;
     const usernameError =
       isFieldTouched('username') && getFieldError('username');
     const emailError = isFieldTouched('email') && getFieldError('email');
@@ -48,7 +84,7 @@ class CreateItemForm extends React.Component<ICreateItemFormProps> {
       hasErrors(getFieldsError());
 
     return (
-      <Form onSubmit={this.handleSubmit} className="create-form">
+      <Form onSubmit={this.handleSubmit} className="create-form" onKeyPress={this.handleKeyPress}>
         <Form.Item
           validateStatus={usernameError ? 'error' : ''}
           help={usernameError || ''}>
@@ -78,6 +114,7 @@ class CreateItemForm extends React.Component<ICreateItemFormProps> {
         </Form.Item>
         <Form.Item>
           <Button
+            loading={loading}
             type="primary"
             htmlType="submit"
             className="login-form-button"
@@ -90,8 +127,8 @@ class CreateItemForm extends React.Component<ICreateItemFormProps> {
   }
 }
 
-const WrappedCreateItemForm = Form.create({ name: 'crete-item-form' })(
-  CreateItemForm
-);
+const WrappedCreateItemForm = Form.create<ICreateItemFormProps>({
+  name: 'crete-item-form',
+})(CreateItemForm);
 
 export default WrappedCreateItemForm;
