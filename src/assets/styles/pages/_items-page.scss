@@ -1,0 +1,30 @@
+.bj-items-page {
+  display: flex;
+
+  &__table {
+    width: 70%;
+  }
+
+  &__form {
+    width: 30%;
+    padding: 0 0 0 20px;
+  }
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+
+    &__table,
+    &__form {
+      width: 100%;
+    }
+
+    &__table {
+      order: 1;
+    }
+
+    &__form {
+      order: 0;
+      padding: 0 10px;
+    }
+  }
+}
